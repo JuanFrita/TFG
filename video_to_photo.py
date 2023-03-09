@@ -1,17 +1,18 @@
 import cv2
 # Open the video file
-video = cv2.VideoCapture('videos_playas/soleado_alto.mp4')
+name = 'soleado_medio'
+video = cv2.VideoCapture(f'videos_playas/{name}.mp4')
 # Get the number of frames
 num_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
 print(num_frames)
-# Loop through the frames and save each one as an image file
-for frame_num in range(num_frames):
+# Get the 3 first frame of the video
+for frame_num in range(5):
     # Read the frame
     ret, frame = video.read()
     # Check if the frame was successfully read
     if ret:
         # Save the frame as an image file
-        cv2.imwrite(f'soleado_alto_{frame_num}.jpg', frame)
+        cv2.imwrite(f'fotos_playas/{name}_{frame_num}.jpg', frame)
     else:
         break
 # Release the video file
