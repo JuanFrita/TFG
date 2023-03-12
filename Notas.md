@@ -13,3 +13,7 @@ Probar con diferentes preprocesamiento de las imáganes:
     - Pasar a escala de grises (no creo que funcione).
     - Quitar bloom.
     - Enfatizar los detalles de la foto.
+
+Notas: 
+
+Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
