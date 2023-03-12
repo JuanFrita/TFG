@@ -17,4 +17,11 @@ Notas:
     - Se ha modificado el archivo preprocess_dataset para tomar las anotaciones desde ficheros 
     .pts.
 
+Primeras pruebas: 
+
+Con el modelo preentrenado : 156 test y 150 reales
+
+python preprocess_dataset.py --origin-dir D:/TFG/resources/Test_Training/test_pretrained --data-dir D:/TFG/resources/Test_Training/test_pretrained
+python test.py --data-dir D:/TFG/resources/Test_Training/test_pretrained --save-dir D:/TFG/resources/Test_Training/test_pretrained/results
+
 Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
