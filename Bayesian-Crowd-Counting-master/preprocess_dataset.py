@@ -42,8 +42,10 @@ def find_dis(point):
 def generate_data(im_path):
     im = Image.open(im_path)
     im_w, im_h = im.size
-    mat_path = im_path.replace('.jpg', '_ann.mat')
-    points = loadmat(mat_path)['annPoints'].astype(np.float32)
+    #mat_path = im_path.replace('.jpg', '_ann.mat')
+    #points = loadmat(mat_path)['annPoints'].astype(np.float32)
+    mat_path = im_path.replace('.jpg', '.pts')
+    points = read_pts(mat_path)
     idx_mask = (points[:, 0] >= 0) * (points[:, 0] <= im_w) * (points[:, 1] >= 0) * (points[:, 1] <= im_h)
     points = points[idx_mask]
     im_h, im_w, rr = cal_new_size(im_h, im_w, min_size, max_size)
@@ -53,6 +55,28 @@ def generate_data(im_path):
         points = points * rr
     return Image.fromarray(im), points
 
+#funcion auxiliar para leer .pts
+def read_pts(path):
+    """takes as input the path to a .pts and returns a list of 
+	tuples of floats containing the points in in the form:
+	[(x_0, y_0, z_0),
+	 (x_1, y_1, z_1),
+	 ...
+	 (x_n, y_n, z_n)]"""
+    with open(path) as f:
+        rows = [rows.strip() for rows in f]
+    
+    """Use the curly braces to find the start and end of the point data""" 
+    head = rows.index('{') + 1
+    tail = rows.index('}')
+
+    """Select the point data split into coordinates"""
+    raw_points = rows[head:tail]
+    coords_set = [point.split() for point in raw_points]
+
+    """Convert entries from lists of strings to tuples of floats"""
+    points = np.array([list([float(point) for point in coords]) for coords in coords_set]).astype(np.float32)
+    return points
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Test ')
