@@ -14,5 +14,7 @@ Probar con diferentes preprocesamiento de las imáganes:
     - Enfatizar los detalles de la foto.
 
 Notas: 
+    - Se ha modificado el archivo preprocess_dataset para tomar las anotaciones desde ficheros 
+    .pts.
 
 Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
