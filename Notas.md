@@ -17,7 +17,7 @@ Notas:
     - Se ha modificado el archivo preprocess_dataset para tomar las anotaciones desde ficheros 
     .pts.
 
-Primeras pruebas: 
+Primeras pruebas: test_pretrained (contiene los resultados con la neurona preentrenada y las imágenes en crudo)
 
 Con el modelo preentrenado : 156 test y 150 reales
 

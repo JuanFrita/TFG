@@ -1,6 +1,6 @@
 import cv2
 # Open the video file
-name = 'soleado_muy_alto'
+name = 'soleado_agua'
 video = cv2.VideoCapture(f'D:/TFG/resources/videos_playas/{name}.mp4')
 # Get the number of frames
 num_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
