@@ -28,7 +28,7 @@ if __name__ == '__main__':
     dataloader = torch.utils.data.DataLoader(datasets, 1, shuffle=False,
                                              num_workers=8, pin_memory=False)
     model = vgg19()
-    device = torch.device('cpu')
+    device = torch.device('cpu') #cambiar a cuda en pc con nvidia
     model.to(device)
     model.load_state_dict(torch.load(os.path.join(args.save_dir, 'best_model.pth'), device))
     epoch_minus = []
