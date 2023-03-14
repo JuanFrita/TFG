@@ -25,3 +25,8 @@ python preprocess_dataset.py --origin-dir D:/TFG/resources/Test_Training/test_pr
 python test.py --data-dir D:/TFG/resources/Test_Training/test_pretrained --save-dir D:/TFG/resources/Test_Training/test_pretrained/results
 
 Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
+
+Aqui sale como usar lasrx de amd con pytorch
+https://github.com/RadeonOpenCompute/ROCm/issues/1698
+
+Tienes que acordarte de poder ejecutar pytorch con la gpu si no tamoh mal. (tienes torch.device cpu en test y train)
