@@ -1,7 +1,7 @@
 from PIL import Image
 
-background = Image.open('D:/TFG/resources/Test_Training/test_pretrained/test/img_2.jpg')
-foreground=  Image.open('D:/TFG/resources/Test_Training/test_pretrained/results/Figure_3.JPG')
+background = Image.open('C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained/test/img_4.jpg')
+foreground=  Image.open('C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained/results/Figure_5.JPG')
 
 if background.size != foreground.size:
     foreground = foreground.resize(background.size)

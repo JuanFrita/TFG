@@ -24,6 +24,10 @@ Con el modelo preentrenado : 156 test y 150 reales
 python preprocess_dataset.py --origin-dir D:/TFG/resources/Test_Training/test_pretrained --data-dir D:/TFG/resources/Test_Training/test_pretrained
 python test.py --data-dir D:/TFG/resources/Test_Training/test_pretrained --save-dir D:/TFG/resources/Test_Training/test_pretrained/results
 
+python preprocess_dataset.py --origin-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained --data-dir   C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained
+
+python test.py --data-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained --save-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained/results
+
 Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
 
 Aqui sale como usar lasrx de amd con pytorch
