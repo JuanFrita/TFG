@@ -28,6 +28,10 @@ python preprocess_dataset.py --origin-dir C:/Users/juanf/OneDrive/Escritorio/TFG
 
 python test.py --data-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained --save-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained/results
 
+python train.py --data_dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_trained --save_dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/results
+
+ cd Bayesian-Crowd-Counting-master
+
 Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
 
 Aqui sale como usar lasrx de amd con pytorch
