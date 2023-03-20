@@ -43,6 +43,7 @@ class RegTrainer(Trainer):
                                   args.crop_size,
                                   args.downsample_ratio,
                                   args.is_gray, x) for x in ['train', 'val']}
+        print(self.datasets)
         self.dataloaders = {x: DataLoader(self.datasets[x],
                                           collate_fn=(train_collate
                                                       if x == 'train' else default_collate),
