@@ -34,6 +34,9 @@ python train.py --data_dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test
 
 Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fichero dlib.pts
 
+Prueba para mejorar la calidad de imagen 
+https://www.youtube.com/watch?v=nPnQm7HFWJs
+
 Aqui sale como usar lasrx de amd con pytorch
 https://github.com/RadeonOpenCompute/ROCm/issues/1698
 
