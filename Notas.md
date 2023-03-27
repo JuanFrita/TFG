@@ -37,6 +37,9 @@ Para generar los puntos de el Bayesian Crowd Counting hay que usar el tipo de fi
 Prueba para mejorar la calidad de imagen 
 https://www.youtube.com/watch?v=nPnQm7HFWJs
 
+Para mejorar toda la imagen
+https://www.youtube.com/watch?v=d-CPvHkltXA
+
 Aqui sale como usar lasrx de amd con pytorch
 https://github.com/RadeonOpenCompute/ROCm/issues/1698
 
