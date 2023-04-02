@@ -39,6 +39,8 @@ https://www.youtube.com/watch?v=nPnQm7HFWJs
 
 Para mejorar toda la imagen
 https://www.youtube.com/watch?v=d-CPvHkltXA
+https://www.youtube.com/watch?v=nQF6UjoUbMA
+https://github.com/bycloudai/Real-ESRGAN-Windows
 
 Aqui sale como usar lasrx de amd con pytorch
 https://github.com/RadeonOpenCompute/ROCm/issues/1698
