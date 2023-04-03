@@ -49,3 +49,8 @@ Para entrenar el modelo se usará un pc con una rtx 3060ti.
 
 Propuesta de mejor modelo (redactar en mi cuaderno un poco todos los avances para la reunión)
 https://github.com/TencentYoutuResearch/CrowdCounting-P2PNet
+
+Recuerda hacerte un entorno para p2p net y para bayesina por que necesitan versiones de torch diferentes
+
+para tirar el entrenamiento de la p2pnet
+CUDA_VISIBLE_DEVICES=0 python train.py --data_root C:\\Users\\Usuario\\TFG\\resources\\Test_Training_p2p\\test_pretrained  --epochs 2000     --lr_drop 3500     --output_dir C:\\Users\\Usuario\\TFG\\logs     --checkpoints_dir ./weights     --tensorboard_dir ./logs     --lr 0.0001     --lr_backbone 0.00001     --batch_size 1     --eval_freq 300     --gpu_id 0
