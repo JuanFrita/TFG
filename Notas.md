@@ -46,3 +46,6 @@ Aqui sale como usar lasrx de amd con pytorch
 https://github.com/RadeonOpenCompute/ROCm/issues/1698
 
 Para entrenar el modelo se usará un pc con una rtx 3060ti.
+
+Propuesta de mejor modelo (redactar en mi cuaderno un poco todos los avances para la reunión)
+https://github.com/TencentYoutuResearch/CrowdCounting-P2PNet
