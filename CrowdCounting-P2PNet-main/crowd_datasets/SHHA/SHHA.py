@@ -96,6 +96,7 @@ def load_data(img_gt_path, train):
     img_path, gt_path = img_gt_path
     # load the images
     img = cv2.imread(img_path)
+    print(img)
     img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     # load ground truth points
     points = []
