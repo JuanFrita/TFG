@@ -26,6 +26,13 @@ python test.py --data-dir D:/TFG/resources/Test_Training/test_pretrained --save-
 
 python preprocess_dataset.py --origin-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained --data-dir   C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained
 
+C:/Users/Usuario/TFG/resources/test_trained_full_1/
+
+C:/Users/Usuario/TFG/resources/Test_Training_bayesian/test_trained_full_1
+
+python preprocess_dataset.py --origin-dir C:/Users/Usuario/TFG/resources/Test_Training_bayesian/test_trained_full_1 --data-dir   C:/Users/Usuario/TFG/resources/Test_Training_bayesian/test_trained_full_1
+
+
 python test.py --data-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained --save-dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_pretrained/results
 
 python train.py --data_dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/test_trained --save_dir C:/Users/juanf/OneDrive/Escritorio/TFG/resources/Test_Training/results
