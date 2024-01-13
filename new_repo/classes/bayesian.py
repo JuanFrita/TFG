@@ -1,6 +1,7 @@
 import os
 import shutil
 import numpy as np
+import subprocess
 from dotenv import load_dotenv 
 
 class Bayesian:
@@ -70,10 +71,58 @@ class Bayesian:
                 anotaciones, annotation_file), dest)
 
     @staticmethod
-    def setFicheros(origen):
+    def setFicheros(origen, destino):
         """
         Genera los ficheros para el entrenamiento y testeo
         origen: nombre de la carpeta que contiene la estructura Train/Test
+        destino: fichero donde se guardan la lista de entrenamiento y de test
         """
+        train = os.path.join(origen, 'train')
+        test = os.path.join(origen, 'test')
+        train_destino = os.path.join(destino, 'train.txt')
+        test_destino = os.path.join(destino, 'test.txt')
+
+        Bayesian.setListFiles(train, train_destino)
+        Bayesian.setListFiles(test, test_destino)
+    
+    @staticmethod
+    def setListFiles(source, dest):
+        ficheros = Bayesian.getPaths(source)
+        list_file = open(dest, 'w+')
+        for fichero in ficheros: 
+            if fichero.endswith(".jpg"):
+                list_file.write(f'{fichero}')
+                list_file.write('\n')
+        list_file.close()
+        
+    @staticmethod
+    def preprocessData():
+        "Ejecuta el comando de la cnn bayesian"
+        comando = f"python {os.getenv('BAYESIAN_ORIGIN_DIR')}/preprocess_dataset.py --origin-dir {os.getenv('ORIGIN_DIR')}/estructuraBayesian --data-dir {os.getenv('ORIGIN_DIR')}/estructuraBayesian" 
+        salida, error = Bayesian.ejecutar_comando(comando)
+        if error:
+            print("Error:", error.decode())
+        else:
+            print("Salida:", salida.decode())
+
+    @staticmethod
+    def ejecutar_comando(comando):
+        "Ejecuta un comando"
+        proceso = subprocess.Popen(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        salida, error = proceso.communicate()
+        return salida, error
+    
+    @staticmethod
+    def getPaths(origen):
+        """
+        Método auxiliar para lectura de todos los ficheros de 
+        una carpeta y obtener los path completos de cada uno
+        """
+        paths = []
+        for file in os.listdir(origen):
+            # Usa os.path.join para obtener la ruta absoluta
+            paths.append(file)
+        return paths
+        
         
 

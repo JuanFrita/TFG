@@ -61,3 +61,13 @@ Recuerda hacerte un entorno para p2p net y para bayesina por que necesitan versi
 
 para tirar el entrenamiento de la p2pnet
 CUDA_VISIBLE_DEVICES=0 python train.py --data_root C:\\Users\\Usuario\\TFG\\resources\\Test_Training_p2p\\test_pretrained  --epochs 2000     --lr_drop 3500     --output_dir C:\\Users\\Usuario\\TFG\\logs     --checkpoints_dir ./weights     --tensorboard_dir ./logs     --lr 0.0001     --lr_backbone 0.00001     --batch_size 1     --eval_freq 300     --gpu_id 0
+
+
+
+//COSAS PARA HACER
+
+la funcion ejecutar comando ponerla en un modulo diferente, para separar
+las responsabilidades. Tambien los de leer todos los ficheros de un 
+directorio
+
+pasar los métodos estáticos a metodos de clase

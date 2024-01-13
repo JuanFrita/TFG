@@ -94,15 +94,9 @@ class P2Pnet:
         train_destino = os.path.join(destino, 'train.list')
         test_destino = os.path.join(destino, 'test.list')
 
-        #Reiniciar la carpeta de destino
-        if os.path.exists(destino):
-            shutil.rmtree(destino)
-        if not os.path.exists(destino):
-                os.makedirs(destino)
-
         P2Pnet.setListFiles(train, train_destino)
         P2Pnet.setListFiles(test, test_destino)
-        
+
     @staticmethod
     def setListFiles(source, dest):
         escenas = P2Pnet.getPaths(source)
@@ -143,6 +137,7 @@ class P2Pnet:
     Método auxiliar para lectura de todos los ficheros de 
     una carpeta y obtener los path completos de cada uno
     """
+    @staticmethod
     def getPaths(origen):
         paths = []
         for file in os.listdir(origen):
