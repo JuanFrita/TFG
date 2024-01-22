@@ -21,5 +21,4 @@ def main(imagenes="assets\\images", anotaciones="assets\\annotations", split_rat
     netBayesian.preprocessData(destinoBayesian)
 
 if __name__ == "__main__":
-
     main()

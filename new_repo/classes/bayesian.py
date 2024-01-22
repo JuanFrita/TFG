@@ -3,6 +3,9 @@ import shutil
 import numpy as np
 import subprocess
 from dotenv import load_dotenv 
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
 
 class Bayesian:
 
@@ -120,6 +123,16 @@ class Bayesian:
             # Usa os.path.join para obtener la ruta absoluta
             paths.append(file)
         return paths
-        
+    
+    @staticmethod
+    def ShowNpyHotMap(imagen):
+        npy_file_path = imagen
+        jpg_file_path = npy_file_path.replace('.npy', '.jpg')
+        points = np.load(npy_file_path)
+        img = Image.open(jpg_file_path)
+        plt.figure(figsize=(10, 10))
+        plt.imshow(img)
+        plt.scatter(points[:, 0], points[:, 1], c='red', marker='o', s=2)
+        plt.show()
         
 
