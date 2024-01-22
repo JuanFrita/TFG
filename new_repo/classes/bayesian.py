@@ -31,14 +31,10 @@ class Bayesian:
         #no se indica split_ratio
         if split_ratio is None:
             split_ratio = 0.7 
-    
-        #añadir el origen a la carpeta de imagenes anotaciones y destino
-        imagenes = os.path.join(os.getenv('ORIGIN_DIR'), imagenes)
-        anotaciones = os.path.join(os.getenv('ORIGIN_DIR'), anotaciones)
-        destino = os.path.join(os.getenv('ORIGIN_DIR'), destino)
-
+            
         #reiniciar las carpetas
-        shutil.rmtree(destino)
+        if os.path.exists(destino):
+            shutil.rmtree(destino)
 
         # Obtener la lista de archivos de las carpetas (solo necesitamos una lista porque los nombres deben coincidir)
         files = os.listdir(imagenes)
@@ -96,9 +92,10 @@ class Bayesian:
         list_file.close()
         
     @staticmethod
-    def preprocessData():
+    def preprocessData(destino):
         "Ejecuta el comando de la cnn bayesian"
-        comando = f"python {os.getenv('BAYESIAN_ORIGIN_DIR')}/preprocess_dataset.py --origin-dir {os.getenv('ORIGIN_DIR')}/estructuraBayesian --data-dir {os.getenv('ORIGIN_DIR')}/estructuraBayesian" 
+        comando = f"python ../Bayesian-Crowd-Counting-master/preprocess_dataset.py --origin-dir ../new_repo/{destino} --data-dir ../new_repo/{destino}" 
+        print(comando)
         salida, error = Bayesian.ejecutar_comando(comando)
         if error:
             print("Error:", error.decode())

@@ -1,7 +1,7 @@
-import os
 import shutil
 import numpy as np
 from dotenv import load_dotenv
+import os
 
 
 class P2Pnet:
@@ -27,16 +27,11 @@ class P2Pnet:
     """
     @staticmethod
     def setCarpetas(imagenes, anotaciones, destino, split_ratio=0.7):
-
+        
         # no se indica split_ratio
         if split_ratio is None:
             split_ratio = 0.7
-
-        # añadir el origen a la carpeta de imagenes anotaciones y destino
-        imagenes = os.path.join(os.getenv('ORIGIN_DIR'), imagenes)
-        anotaciones = os.path.join(os.getenv('ORIGIN_DIR'), anotaciones)
-        destino = os.path.join(os.getenv('ORIGIN_DIR'), destino)
-
+                    
         # reiniciar las carpetas
         if os.path.exists(destino):
             shutil.rmtree(destino)
