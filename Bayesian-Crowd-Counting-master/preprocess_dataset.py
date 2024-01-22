@@ -86,35 +86,15 @@ if __name__ == '__main__':
 
     for phase in ['Train', 'Test']:
         sub_dir = os.path.join(args.origin_dir, phase)
-        if phase == 'Train':
-            sub_phase_list = ['train', 'val']
-            for sub_phase in sub_phase_list:
-                sub_save_dir = os.path.join(save_dir, sub_phase)
-                if not os.path.exists(sub_save_dir):
-                    os.makedirs(sub_save_dir)
-                with open('{}.txt'.format(sub_phase)) as f:
-                    for i in f:
-                        im_path = os.path.join(sub_dir, i.strip())
-                        name = os.path.basename(im_path)
-                        print(name)
-                        im, points = generate_data(im_path)
-                        if sub_phase == 'train':
-                            dis = find_dis(points)
-                            points = np.concatenate((points, dis), axis=1)
-                        im_save_path = os.path.join(sub_save_dir, name)
-                        im.save(im_save_path)
-                        gd_save_path = im_save_path.replace('jpg', 'npy')
-                        np.save(gd_save_path, points)
-        else:
-            sub_save_dir = os.path.join(save_dir, 'test')
-            if not os.path.exists(sub_save_dir):
-                os.makedirs(sub_save_dir)
-            im_list = glob(os.path.join(sub_dir, '*jpg'))
-            for im_path in im_list:
-                name = os.path.basename(im_path)
-                print(name)
-                im, points = generate_data(im_path)
-                im_save_path = os.path.join(sub_save_dir, name)
-                im.save(im_save_path)
-                gd_save_path = im_save_path.replace('jpg', 'npy')
-                np.save(gd_save_path, points)
+        sub_save_dir = os.path.join(save_dir, 'train' if phase =='Train' else 'test')
+        if not os.path.exists(sub_save_dir):
+            os.makedirs(sub_save_dir)
+        im_list = glob(os.path.join(sub_dir, '*jpg'))
+        for im_path in im_list:
+            name = os.path.basename(im_path)
+            print(name)
+            im, points = generate_data(im_path)
+            im_save_path = os.path.join(sub_save_dir, name)
+            im.save(im_save_path)
+            gd_save_path = im_save_path.replace('jpg', 'npy')
+            np.save(gd_save_path, points)

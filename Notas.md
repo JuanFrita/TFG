@@ -71,3 +71,19 @@ las responsabilidades. Tambien los de leer todos los ficheros de un
 directorio
 
 pasar los métodos estáticos a metodos de clase
+
+
+Reunión 17/01/2024
+-- Incluir en el trabajo la cnn yolo.
+
+-- incluir las estadisticas de como aprende la cnn 
+
+    -- hacer un incremento progresivo de las epochs.
+
+-- Revisar las métricas que han usado en los papers de las cnn. aplicarlo
+    tanto en entrenamiento como en test. fijarse en la disparidad de las metricas
+    entre entrenamiento y testing. MUY IMPORTANTE
+
+-- comparacion de los modelos sin entrenar, unica playa, varias playas.
+
+-- que el area para descartar falsos positivos sea la que indique el area.
