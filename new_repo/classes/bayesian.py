@@ -2,19 +2,11 @@ import os
 import shutil
 import numpy as np
 import subprocess
-from dotenv import load_dotenv 
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 
 class Bayesian:
-
-    def __init__(self):
-        """
-        Carga las variables de entorno
-        """
-        load_dotenv()
-        
 
     @staticmethod
     def setCarpetas(imagenes, anotaciones, destino, split_ratio=0.7):

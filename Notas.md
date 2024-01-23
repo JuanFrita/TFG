@@ -87,3 +87,8 @@ Reunión 17/01/2024
 -- comparacion de los modelos sin entrenar, unica playa, varias playas.
 
 -- que el area para descartar falsos positivos sea la que indique el area.
+
+--pasarlo todo a ingles jeje no mix de idiomas
+
+--separar por responsabilidades el codigo (clases utils, no hacerlo static, limpiarlo
+...)
