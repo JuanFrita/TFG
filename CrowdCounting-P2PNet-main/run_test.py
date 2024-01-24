@@ -61,7 +61,7 @@ def main(args, debug=False):
     ])
 
     # set your image path here
-    img_path = "C:/Users/Usuario/TFG/resources/Test_Training_p2p/test_pretrained/test/scene00/img_0.jpg"
+    img_path = "C:/Users/Usuario/TFG/resources/Test_Training_p2p/test_trained_full_1/test/scene07/59.jpg"
     # load the images
     img_raw = Image.open(img_path).convert('RGB')
     # round the size
