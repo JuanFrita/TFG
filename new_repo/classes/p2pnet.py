@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 from datetime import datetime
+import re
+import matplotlib.pyplot as plt
 
 
 class P2Pnet:
@@ -140,17 +142,17 @@ class P2Pnet:
         """
         Lanza el comando para entrenar la cnn p2pnet
         """
-        #crea los directorios necesarios
+        # crea los directorios necesarios
         if os.path.exists(output_dir):
             shutil.rmtree(output_dir)
         os.makedirs(output_dir, exist_ok=True)
-        
+
         if os.path.exists(tensorboard_dir):
             shutil.rmtree(tensorboard_dir)
         os.makedirs(tensorboard_dir, exist_ok=True)
 
         if os.path.exists(checkpoints_dir):
-           shutil.rmtree(checkpoints_dir)
+            shutil.rmtree(checkpoints_dir)
         os.makedirs(checkpoints_dir, exist_ok=True)
 
         comando = f"python ../CrowdCounting-P2PNet-main/train.py --data_root {data_root} --epochs {epochs} --output_dir {output_dir} --checkpoints_dir {checkpoints_dir} --tensorboard_dir {tensorboard_dir} --batch_size {batch_size} --eval_freq {eval_freq} --gpu_id 0"
@@ -161,12 +163,45 @@ class P2Pnet:
         else:
             print("Salida:", salida.decode())
 
+    def test_model(weight_path, data_origin, output_dir):
+
+        if os.path.exists(output_dir):
+            shutil.rmtree(output_dir)
+        os.makedirs(output_dir, exist_ok=True)
+
+        comando = f"python ../CrowdCounting-P2PNet-main/run_test_bulk.py --weight_path {weight_path} --data_origin {data_origin} --output_dir {output_dir}"
+        print(comando)
+        salida, error = P2Pnet.ejecutar_comando(comando)
+        if error:
+            print("Error:", error.decode())
+        else:
+            print("Salida:", salida.decode())
+
+    def plot_loss(instance, loss_file, limit_left, limit_right):
+        # Leer los datos desde el archivo
+        with open(loss_file, 'r') as archivo:
+            datos = archivo.read()
+
+        pattern = r"loss/loss@(\d+): ([\d.]+)"
+        matches = re.findall(pattern, datos)
+
+        episodios = [int(match[0]) for match in matches[limit_left:limit_right]]
+        perdidas = [float(match[1]) for match in matches[limit_left:limit_right]]
+
+        plt.plot(episodios, perdidas, marker='o', linestyle='-', color='b')
+        plt.title('Pérdida del Modelo por Época')
+        plt.xlabel('Época')
+        plt.ylabel('Pérdida')
+        plt.grid(True)
+        plt.show()
+
     def ejecutar_comando(comando):
         "Ejecuta un comando"
-        proceso = subprocess.Popen(comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        proceso = subprocess.Popen(
+            comando, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         salida, error = proceso.communicate()
         return salida, error
-    
+
     ###############################################
     # FUNCIONES CON ENTRENAMIENTOS PRESTABLECIDOS #
     ###############################################
@@ -185,4 +220,18 @@ class P2Pnet:
             6,
             5
         )
-    
+
+    ########################################
+    # FUNCIONES CON TESTEOS PRESTABLECIDOS #
+    ########################################
+
+    def default_test(instance, weight_path, data_origin):
+        """
+        Entrenamiento por defecto
+        """
+        fecha_hora_actual = datetime.now()
+        P2Pnet.test_model(
+            f"../new_repo/assets/results/{weight_path}/checkpoints/best_mae.pth",
+            f"../new_repo/assets/data_processed/{data_origin}/test",
+            f"../new_repo/assets/results/{weight_path}/tests/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
+        )
