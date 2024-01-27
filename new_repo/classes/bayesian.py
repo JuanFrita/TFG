@@ -5,6 +5,7 @@ import subprocess
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
+from datetime import datetime
 
 class Bayesian:
 
@@ -126,5 +127,52 @@ class Bayesian:
         plt.imshow(img)
         plt.scatter(points[:, 0], points[:, 1], c='red', marker='o', s=2)
         plt.show()
+        
+    @staticmethod
+    def train_model(data_root, output_dir):
+        if os.path.exists(output_dir):
+            shutil.rmtree(output_dir)
+            os.makedirs(output_dir, exist_ok=True)
+        comando = f"python ../Bayesian-Crowd-Counting-master/train.py --data_dir {data_root} --save_dir {output_dir}"
+        print(comando)
+        salida, error = Bayesian.ejecutar_comando(comando)
+        if error:
+            print("Error:", error.decode())
+        else:
+            print("Salida:", salida.decode())
+
+    def test_model(data_root, output_dir):
+        if os.path.exists(output_dir):
+            shutil.rmtree(output_dir)
+            os.makedirs(output_dir, exist_ok=True)
+        comando = f"python ../Bayesian-Crowd-Counting-master/test.py --data_dir {data_root} --save_dir {output_dir}"
+        print(comando)
+        salida, error = Bayesian.ejecutar_comando(comando)
+        if error:
+            print("Error:", error.decode())
+        else:
+            print("Salida:", salida.decode())
+    
+    ###############################################
+    # FUNCIONES CON ENTRENAMIENTOS PRESTABLECIDOS #
+    ###############################################
+     
+    @staticmethod
+    def default_train(instance, data_origin):
+        fecha_hora_actual = datetime.now()
+        Bayesian.train_model(
+            f"../new_repo/assets/data_processed/{data_origin}",
+            f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
+        )
+        
+    ########################################
+    # FUNCIONES CON TESTEOS PRESTABLECIDOS #
+    ########################################
+    
+    def default_test(instance, data_origin, output_dir):
+        Bayesian.test_model(
+            f"../new_repo/assets/data_processed/{data_origin}/test",
+            f"../new_repo/assets/results/{output_dir}/output",
+        )
         
 

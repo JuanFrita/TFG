@@ -207,9 +207,6 @@ class P2Pnet:
     ###############################################
 
     def default_train(instance, data_origin):
-        """
-        Entrenamiento por defecto
-        """
         fecha_hora_actual = datetime.now()
         P2Pnet.train_model(
             f"../new_repo/assets/data_processed/{data_origin}",

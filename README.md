@@ -16,13 +16,13 @@ https://arxiv.org/pdf/1908.03684.pdf
 
 Buenas tardes Pedro y Antoni. 
 
-Os mando este correo para que tengáis constancia de los avances que se van haciendo en el TFG y que dudas me han surgido. La semana pasada no pude avanzar mucho por eso os solicité posponer a principios de la semana que viene la reunión para que sea mas sustancial.
+Os mando este correo para que tengáis constancia de los avances que se van haciendo en el TFG y que dudas me han surgido. La semana pasada no pude avanzar mucho, por eso os solicité posponer a principios de la semana que viene la reunión para que sea mas sustancial.
 
 Ya tengo preparada en una clase propia las funciones para lanzar los entrenamientos y testeos de la red p2p, me falta hacer lo propio para la bayesian (sigue el mismo estilo así que es bastante rápido de montar). 
 
-También investigando los parámetros del script de testeo de la red p2p, vi que había un parámetro para loguear en un archivo,la pérdida por epoch y otro para ir marcando los checkpoints de validación cada x epochs, entonces he creado otro script que coge el fichero de salida y con un regex saca la pérdida por epoch para poder hacer la visualización de la gráfica. 
+También investigando los parámetros del script de testeo de la red p2p, vi que había un parámetro para loguear en un archivo la pérdida por epoch y otro para ir marcando los checkpoints de validación cada x epochs, entonces he creado otro script que coge el fichero de salida y con un regex saca la pérdida por epoch para poder hacer la visualización de la gráfica. 
 
-Sobre todo esto es con el fin de poder facilitar los experimentos ya que los modelos tienen bastantes parámetros que sería interesante ir ajustando, y también por que me sirve para poder comparar el rendimientos de los modelos que es el punto más importante de esta semana de trabajo. 
+Sobre todo, esto es con el fin de poder facilitar los experimentos ya que los modelos tienen bastantes parámetros que sería interesante ir ajustando, y también por que me sirve para poder comparar el rendimientos de los modelos que es el punto más importante de esta semana de trabajo. 
 
 Sobre comparar y medir el rendimiento de los modelos es donde me han surgido más dudas. 
 
@@ -33,3 +33,9 @@ El modelo Bayesian está basado en un mapa de densidad pero con la función de p
 El modelo P2P sigue un enfoque basado únicamente en puntos, es decir, predecir la posición exacta donde se ubica una persona (cabeza). Proponen una nueva métrica ( Density Normalized Average Precision ) muy interesante para no solo basarnos en el MAE y MSE del conteo total, si no verificar que la localización de los puntos y la performance del conteo son correctas. 
 
 Entonces el MAE y MSE seguro que se usarán para medir el rendimiento. El modelo P2P si que ofrece una forma de ver si el conteo es realmente acertado o simplemente da bien "por suerte". En el caso del modelo Bayesian puede que se complique un poco más de hecho en su paper usan el MAE y MSE, pero ciertamente habrá que buscar una forma de poder medir que el mapa de densidad generado es correcto. 
+
+Muchas gracias por vuestra atención
+
+Un saludo, 
+
+Juan Francisco Sánchez García.
