@@ -10,4 +10,4 @@ if __name__ == "__main__":
     parser.add_argument("data_origin", help="Nombre de la carpeta a cargar")
     args = parser.parse_args()
     funcion = getattr(Bayesian(), args.config)
-    funcion(args.data_origin)
+    funcion( 0,args.data_origin)
