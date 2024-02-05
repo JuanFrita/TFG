@@ -23,7 +23,7 @@ def parse_args():
                         help='max training epoch')
     parser.add_argument('--val-epoch', type=int, default=5,
                         help='the num of steps to log training information')
-    parser.add_argument('--val-start', type=int, default=600,
+    parser.add_argument('--val-start', type=int, default=5,
                         help='the epoch start to val')
 
     parser.add_argument('--batch-size', type=int, default=1,
