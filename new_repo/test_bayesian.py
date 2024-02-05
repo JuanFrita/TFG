@@ -11,4 +11,4 @@ if __name__ == "__main__":
     parser.add_argument("output_dir", help="Nombre de la carpeta que contiene el modelo")
     args = parser.parse_args()
     funcion = getattr(Bayesian(), args.config)
-    funcion(args.data_origin)
+    funcion(args.data_origin, args.output_dir)

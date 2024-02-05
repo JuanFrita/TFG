@@ -142,9 +142,7 @@ class Bayesian:
             print("Salida:", salida.decode())
 
     def test_model(data_root, output_dir):
-        if os.path.exists(output_dir):
-            shutil.rmtree(output_dir)
-            os.makedirs(output_dir, exist_ok=True)
+
         comando = f"python ../Bayesian-Crowd-Counting-master/test.py --data-dir {data_root} --save-dir {output_dir}"
         print(comando)
         salida, error = Bayesian.ejecutar_comando(comando)
@@ -172,7 +170,7 @@ class Bayesian:
     def default_test(instance, data_origin, output_dir):
         Bayesian.test_model(
             f"../new_repo/assets/data_processed/{data_origin}",
-            f"../new_repo/assets/results/{output_dir}/output",
+            f"../new_repo/assets/results/{output_dir}",
         )
         
 
