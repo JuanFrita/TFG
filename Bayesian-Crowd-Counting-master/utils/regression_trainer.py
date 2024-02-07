@@ -134,24 +134,36 @@ class RegTrainer(Trainer):
         self.save_list.append(save_path)  # control the number of saved models
 
     def val_epoch(self):
-        epoch_start = time.time()
         self.model.eval()  # Set model to evaluate mode
-        epoch_res = []
+        epoch_loss = AverageMeter()
+        epoch_mae = AverageMeter()
+        epoch_mse = AverageMeter()
+        epoch_start = time.time()
         # Iterate over data.
-        for inputs, count, name in self.dataloaders['val']:
+        for step, (inputs, points, targets, st_sizes) in enumerate(self.dataloaders['val']):
             inputs = inputs.to(self.device)
-            # inputs are images with different sizes
-            assert inputs.size(0) == 1, 'the batch size should equal to 1 in validation mode'
+            st_sizes = st_sizes.to(self.device)
+            gd_count = np.array([len(p) for p in points], dtype=np.float32)
+            points = [p.to(self.device) for p in points]
+            targets = [t.to(self.device) for t in targets]
+
             with torch.set_grad_enabled(False):
                 outputs = self.model(inputs)
-                res = count[0].item() - torch.sum(outputs).item()
-                epoch_res.append(res)
+                prob_list = self.post_prob(points, st_sizes)
+                loss = self.criterion(prob_list, targets, outputs)
+                N = inputs.size(0)
+                pre_count = torch.sum(outputs.view(N, -1), dim=1).detach().cpu().numpy()
+                res = pre_count - gd_count
+                epoch_loss.update(loss.item(), N)
+                epoch_mse.update(np.mean(res * res), N)
+                epoch_mae.update(np.mean(abs(res)), N)
 
-        epoch_res = np.array(epoch_res)
-        mse = np.sqrt(np.mean(np.square(epoch_res)))
-        mae = np.mean(np.abs(epoch_res))
-        logging.info('Epoch {} Val, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
-                     .format(self.epoch, mse, mae, time.time()-epoch_start))
+        loss = epoch_loss.get_avg()
+        mse = np.sqrt(epoch_mse.get_avg())
+        mae = epoch_mae.get_avg()
+        logging.info('Val: Epoch {} Train, Loss: {:.2f}, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
+                     .format(self.epoch, loss, mse, mae,
+                             time.time()-epoch_start))
 
         model_state_dic = self.model.state_dict()
         if (2.0 * mse + mae) < (2.0 * self.best_mse + self.best_mae):

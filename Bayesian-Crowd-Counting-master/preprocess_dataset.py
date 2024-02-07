@@ -87,7 +87,7 @@ if __name__ == '__main__':
     for phase in ['Train', 'Test']:
         sub_dir = os.path.join(args.origin_dir, phase)
         if phase == 'Train':
-            sub_phase_list = ['train']
+            sub_phase_list = ['train', 'val']
             for sub_phase in sub_phase_list:
                 sub_save_dir = os.path.join(save_dir, sub_phase)
                 if not os.path.exists(sub_save_dir):
@@ -95,7 +95,7 @@ if __name__ == '__main__':
                 sub_save_file_list =  os.path.join(args.origin_dir, sub_phase)
                 with open('{}.txt'.format(sub_save_file_list)) as f:
                     for i in f:
-                        im_path = os.path.join(sub_dir, i.strip())
+                        im_path = os.path.join(sub_save_file_list, i.strip())
                         name = os.path.basename(im_path)
                         print(name)
                         im, points = generate_data(im_path)
