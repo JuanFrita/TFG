@@ -38,11 +38,15 @@ class Bayesian:
         # Crear las carpetas train y test si no existen
         train_folder = os.path.join(destino, 'train')
         test_folder = os.path.join(destino, 'test')
+        val_folder = os.path.join(destino, 'val')
+
 
         if not os.path.exists(train_folder):
             os.makedirs(train_folder)
         if not os.path.exists(test_folder):
             os.makedirs(test_folder)
+        if not os.path.exists(val_folder):
+            os.makedirs(val_folder)
 
         # Mezclar los archivos y dividir en train y test
         np.random.shuffle(files)
@@ -51,6 +55,8 @@ class Bayesian:
         
         Bayesian.loadPts(train_files, train_folder, imagenes, anotaciones)
         Bayesian.loadPts(test_files, test_folder, imagenes, anotaciones)
+        Bayesian.loadPts(test_files, val_folder, imagenes, anotaciones)
+
             
     @staticmethod
     def loadPts(origin, dest, imagenes, anotaciones):
@@ -73,10 +79,12 @@ class Bayesian:
         test = os.path.join(origen, 'test')
         train_destino = os.path.join(destino, 'train.txt')
         test_destino = os.path.join(destino, 'test.txt')
+        val_destino = os.path.join(destino, 'val.txt')
 
         Bayesian.setListFiles(train, train_destino)
         Bayesian.setListFiles(test, test_destino)
-    
+        Bayesian.setListFiles(test, val_destino)
+
     @staticmethod
     def setListFiles(source, dest):
         ficheros = Bayesian.getPaths(source)
