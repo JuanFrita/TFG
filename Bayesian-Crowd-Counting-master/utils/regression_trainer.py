@@ -36,7 +36,9 @@ class RegTrainer(Trainer):
             assert self.device_count == 1
             logging.info('using {} gpus'.format(self.device_count))
         else:
-            raise Exception("gpu is not available")
+            self.device = torch.device("cpu")
+            self.device_count = 1
+            logging.info('using {} cpu B)')
 
         self.downsample_ratio = args.downsample_ratio
         self.datasets = {x: Crowd(os.path.join(args.data_dir, x),
@@ -46,7 +48,7 @@ class RegTrainer(Trainer):
         print(self.datasets)
         self.dataloaders = {x: DataLoader(self.datasets[x],
                                           collate_fn=(train_collate
-                                                      if x == 'train' else default_collate),
+                                                      if x == 'train' else train_collate),
                                           batch_size=(args.batch_size
                                           if x == 'train' else 1),
                                           shuffle=(True if x == 'train' else False),
