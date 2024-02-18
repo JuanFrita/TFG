@@ -14,7 +14,7 @@ from  models.vgg import vgg19
 from datasets.crowd import Crowd
 from losses.bay_loss import Bay_Loss
 from losses.post_prob import Post_Prob
-
+import json
 
 def train_collate(batch):
     transposed_batch = list(zip(*batch))
@@ -45,15 +45,13 @@ class RegTrainer(Trainer):
                                   args.crop_size,
                                   args.downsample_ratio,
                                   args.is_gray, x) for x in ['train', 'val']}
-        print(self.datasets)
         self.dataloaders = {x: DataLoader(self.datasets[x],
-                                          collate_fn=(train_collate
-                                                      if x == 'train' else train_collate),
+                                          collate_fn=(train_collate),
                                           batch_size=(args.batch_size
                                           if x == 'train' else 1),
-                                          shuffle=(True if x == 'train' else False),
+                                          shuffle=(True),
                                           num_workers=args.num_workers*self.device_count,
-                                          pin_memory=(True if x == 'train' else False))
+                                          pin_memory=(True))
                             for x in ['train', 'val']}
         self.model =vgg19()
         self.model.to(self.device)
