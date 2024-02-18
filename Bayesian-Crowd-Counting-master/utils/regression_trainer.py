@@ -121,9 +121,10 @@ class RegTrainer(Trainer):
                 epoch_mse.update(np.mean(res * res), N)
                 epoch_mae.update(np.mean(abs(res)), N)
 
-        logging.info('Epoch {} Train, Loss: {:.2f}, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
-                     .format(self.epoch, epoch_loss.get_avg(), np.sqrt(epoch_mse.get_avg()), epoch_mae.get_avg(),
+        logging.info('Epoch {} Train, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
+                     .format(self.epoch, np.sqrt(epoch_mse.get_avg()), epoch_mae.get_avg(),
                              time.time()-epoch_start))
+        logging.info("train: loss/loss@{}: {}".format(self.epoch, epoch_loss.get_avg()))
         model_state_dic = self.model.state_dict()
         save_path = os.path.join(self.save_dir, '{}_ckpt.tar'.format(self.epoch))
         torch.save({
@@ -161,9 +162,10 @@ class RegTrainer(Trainer):
         loss = epoch_loss.get_avg()
         mse = np.sqrt(epoch_mse.get_avg())
         mae = epoch_mae.get_avg()
-        logging.info('Val: Epoch {} Train, Loss: {:.2f}, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
-                     .format(self.epoch, loss, mse, mae,
+        logging.info('Epoch {} Val, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
+                     .format(self.epoch, mse, mae,
                              time.time()-epoch_start))
+        logging.info("val: loss/loss@{}: {}".format(self.epoch, loss))
 
         model_state_dic = self.model.state_dict()
         if (2.0 * mse + mae) < (2.0 * self.best_mse + self.best_mae):
