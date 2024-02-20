@@ -99,9 +99,8 @@ if __name__ == '__main__':
                         name = os.path.basename(im_path)
                         print(name)
                         im, points = generate_data(im_path)
-                        if sub_phase == 'train':
-                            dis = find_dis(points)
-                            points = np.concatenate((points, dis), axis=1)
+                        dis = find_dis(points)
+                        points = np.concatenate((points, dis), axis=1)
                         im_save_path = os.path.join(sub_save_dir, name)
                         im.save(im_save_path)
                         gd_save_path = im_save_path.replace('jpg', 'npy')
