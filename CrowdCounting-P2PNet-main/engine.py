@@ -122,18 +122,28 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
 
 # the inference routine
 @torch.no_grad()
-def evaluate_crowd_no_overlap(model, data_loader, device, vis_dir=None):
+def evaluate_crowd_no_overlap(model, data_loader, device, criterion: torch.nn.Module, vis_dir=None):
     model.eval()
-
+    criterion.eval()
     metric_logger = utils.MetricLogger(delimiter="  ")
     metric_logger.add_meter('class_error', utils.SmoothedValue(window_size=1, fmt='{value:.2f}'))
     # run inference on all images to calc MAE
     maes = []
     mses = []
+    losses_list = []
     for samples, targets in data_loader:
         samples = samples.to(device)
 
         outputs = model(samples)
+        #Calculate loss
+        loss_dict = criterion(outputs, targets)
+        weight_dict = criterion.weight_dict
+        loss_dict_reduced = utils.reduce_dict(loss_dict)
+        loss_dict_reduced_scaled = {k: v * weight_dict[k]
+                                    for k, v in loss_dict_reduced.items() if k in weight_dict}
+        losses_reduced_scaled = sum(loss_dict_reduced_scaled.values())
+        loss_value = losses_reduced_scaled.item()
+        
         outputs_scores = torch.nn.functional.softmax(outputs['pred_logits'], -1)[:, :, 1][0]
 
         outputs_points = outputs['pred_points'][0]
@@ -152,8 +162,10 @@ def evaluate_crowd_no_overlap(model, data_loader, device, vis_dir=None):
         mse = (predict_cnt - gt_cnt) * (predict_cnt - gt_cnt)
         maes.append(float(mae))
         mses.append(float(mse))
+        losses_list.append(float(loss_value))
     # calc MAE, MSE
     mae = np.mean(maes)
     mse = np.sqrt(np.mean(mses))
+    loss = np.mean(losses_list)
 
-    return mae, mse
+    return mae, mse, loss

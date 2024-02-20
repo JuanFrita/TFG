@@ -163,8 +163,8 @@ def main(args):
         # record the training states after every epoch
         if writer is not None:
             with open(run_log_name, "a") as log_file:
-                log_file.write("loss/loss@{}: {}".format(epoch, stat['loss']))
-                log_file.write("loss/loss_ce@{}: {}\n".format(epoch, stat['loss_ce']))
+                log_file.write("train: loss/loss@{}: {}".format(epoch, stat['loss']))
+                log_file.write("train: loss/loss_ce@{}: {}\n".format(epoch, stat['loss_ce']))
                 
             writer.add_scalar('loss/loss', stat['loss'], epoch)
             writer.add_scalar('loss/loss_ce', stat['loss_ce'], epoch)
@@ -184,7 +184,7 @@ def main(args):
         # run evaluation
         if epoch % args.eval_freq == 0 and epoch != 0:
             t1 = time.time()
-            result = evaluate_crowd_no_overlap(model, data_loader_val, device)
+            result = evaluate_crowd_no_overlap(model, data_loader_val, device, criterion)
             t2 = time.time()
 
             mae.append(result[0])
@@ -195,6 +195,7 @@ def main(args):
             with open(run_log_name, "a") as log_file:
                 log_file.write("mae:{}, mse:{}, time:{}, best mae:{}\n".format(result[0], 
                                 result[1], t2 - t1, np.min(mae)))
+                log_file.write("val: loss/loss@{}: {}".format(epoch, result[2]))
             print('=======================================test=======================================')
             # recored the evaluation results
             if writer is not None:
