@@ -110,8 +110,8 @@ class Bayesian:
     def plot_loss(instance, loss_file, limit_left, limit_right):
         [train_epochs, train_loss] = Bayesian.plot_individual_loss(loss_file, r"train: loss/loss@(\d+): ([\d.]+)", limit_left, limit_right,  True)
         [val_epochs, val_loss] = Bayesian.plot_individual_loss(loss_file, r"val: loss/loss@(\d+): ([\d.]+)", limit_left, limit_right)
-        plt.plot(train_epochs, train_loss, marker='o', linestyle='-', color='blue', label='Training')
-        plt.plot(val_epochs, val_loss, marker='o', linestyle='-', color='red', label='Validation')
+        plt.plot(train_epochs, train_loss, marker='o', linestyle='-', color='blue', label='Training', markersize=3)
+        plt.plot(val_epochs, val_loss, marker='o', linestyle='-', color='red', label='Validation', markersize=3)
         plt.title('Training Vs Validation Bayesian')
         plt.xlabel('Época')
         plt.ylabel('Pérdida')

@@ -178,22 +178,28 @@ class P2Pnet:
             print("Salida:", salida.decode())
 
     def plot_loss(instance, loss_file, limit_left, limit_right):
-        # Leer los datos desde el archivo
-        with open(loss_file, 'r') as archivo:
-            datos = archivo.read()
-
-        pattern = r"loss/loss@(\d+): ([\d.]+)"
-        matches = re.findall(pattern, datos)
-
-        episodios = [int(match[0]) for match in matches[limit_left:limit_right]]
-        perdidas = [float(match[1]) for match in matches[limit_left:limit_right]]
-
-        plt.plot(episodios, perdidas, marker='o', linestyle='-', color='b')
-        plt.title('Pérdida del Modelo por Época')
+        [train_epochs, train_loss] = P2Pnet.plot_individual_loss(loss_file, r"train: loss/loss@(\d+): ([\d.]+)", limit_left, limit_right,  True)
+        [val_epochs, val_loss] = P2Pnet.plot_individual_loss(loss_file, r"val: loss/loss@(\d+): ([\d.]+)", limit_left, limit_right)
+        plt.plot(train_epochs, train_loss, marker='o', linestyle='-', color='blue', label='Training', markersize=3)
+        plt.plot(val_epochs, val_loss, marker='o', linestyle='-', color='red', label='Validation', markersize=3)
+        plt.title('Training Vs Validation P2PNet')
         plt.xlabel('Época')
         plt.ylabel('Pérdida')
         plt.grid(True)
+        plt.legend()
         plt.show()
+       
+    def plot_individual_loss(loss_file, pattern, limit_left, limit_right, jump=False):
+        with open(loss_file, 'r') as archivo:
+            datos = archivo.read()
+        matches = re.findall(pattern, datos)
+        if(jump):
+            epochs = [int(match[0]) for match in matches[limit_left:limit_right]if int(match[0]) % 5 == 0]
+            losses = [float(match[1]) for match in matches[limit_left:limit_right]if int(match[0]) % 5 == 0]
+        else:
+            epochs = [int(match[0]) for match in matches[limit_left:limit_right]]
+            losses = [float(match[1]) for match in matches[limit_left:limit_right]]
+        return [epochs, losses]
 
     def ejecutar_comando(comando):
         "Ejecuta un comando"
