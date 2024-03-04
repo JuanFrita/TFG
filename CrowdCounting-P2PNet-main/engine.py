@@ -133,7 +133,7 @@ def evaluate_crowd_no_overlap(model, data_loader, device, criterion: torch.nn.Mo
     losses_list = []
     for samples, targets in data_loader:
         samples = samples.to(device)
-
+        targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
         outputs = model(samples)
         #Calculate loss
         loss_dict = criterion(outputs, targets)
