@@ -168,7 +168,8 @@ class RegTrainer(Trainer):
         logging.info("val: loss/loss@{}: {}".format(self.epoch, loss))
 
         model_state_dic = self.model.state_dict()
-        if (2.0 * mse + mae) < (2.0 * self.best_mse + self.best_mae):
+        ##Just take mse for fine tunning
+        if (2.0 * mse) < (2.0 * self.best_mse):
             self.best_mse = mse
             self.best_mae = mae
             logging.info("save best mse {:.2f} mae {:.2f} model epoch {}".format(self.best_mse,
