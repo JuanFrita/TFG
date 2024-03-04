@@ -11,7 +11,8 @@ from datetime import datetime
 class Bayesian:
 
     @staticmethod
-    def setCarpetas(imagenes, anotaciones, destino, split_ratio=0.7):
+    def setCarpetas(image_source, anotations_source, 
+                    train_files, test_files, destino):
         """
         Genera la estructura de los ficheros train y test
 
@@ -25,16 +26,9 @@ class Bayesian:
             Estructura de directorios para la CNN Bayesian +
         """
 
-        #no se indica split_ratio
-        if split_ratio is None:
-            split_ratio = 0.7 
-            
         #reiniciar las carpetas
         if os.path.exists(destino):
             shutil.rmtree(destino)
-
-        # Obtener la lista de archivos de las carpetas (solo necesitamos una lista porque los nombres deben coincidir)
-        files = os.listdir(imagenes)
 
         # Crear las carpetas train y test si no existen
         train_folder = os.path.join(destino, 'train')
@@ -49,14 +43,9 @@ class Bayesian:
         if not os.path.exists(val_folder):
             os.makedirs(val_folder)
 
-        # Mezclar los archivos y dividir en train y test
-        np.random.shuffle(files)
-        train_files = files[:int(len(files) * split_ratio)]
-        test_files = files[int(len(files) * split_ratio):]
-        
-        Bayesian.loadPts(train_files, train_folder, imagenes, anotaciones)
-        Bayesian.loadPts(test_files, test_folder, imagenes, anotaciones)
-        Bayesian.loadPts(test_files, val_folder, imagenes, anotaciones)
+        Bayesian.loadPts(train_files, train_folder, image_source, anotations_source)
+        Bayesian.loadPts(test_files, test_folder, image_source, anotations_source)
+        Bayesian.loadPts(test_files, val_folder, image_source, anotations_source)
 
             
     @staticmethod
