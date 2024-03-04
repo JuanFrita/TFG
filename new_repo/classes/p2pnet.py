@@ -186,8 +186,8 @@ class P2Pnet:
             epochs = [int(match[0]) for match in matches[limit_left:limit_right]if int(match[0]) % 5 == 0]
             losses = [float(match[1]) for match in matches[limit_left:limit_right]if int(match[0]) % 5 == 0]
         else:
-            epochs = [int(match[0]) for match in matches[limit_left:limit_right]]
-            losses = [float(match[1]) for match in matches[limit_left:limit_right]]
+            epochs = [int(match[0]) for match in matches[limit_left:limit_right//5]]
+            losses = [float(match[1]) for match in matches[limit_left:limit_right//5]]
         return [epochs, losses]
 
     def ejecutar_comando(comando):
