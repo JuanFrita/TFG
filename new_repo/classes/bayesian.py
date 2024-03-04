@@ -151,11 +151,11 @@ class Bayesian:
         plt.show()
         
     @staticmethod
-    def train_model(data_root, output_dir):
+    def train_model(data_root, output_dir, epochs):
         if os.path.exists(output_dir):
             shutil.rmtree(output_dir)
             os.makedirs(output_dir, exist_ok=True)
-        comando = f"python ../Bayesian-Crowd-Counting-master/train.py --data-dir {data_root} --save-dir {output_dir}"
+        comando = f"python ../Bayesian-Crowd-Counting-master/train.py --data-dir {data_root} --save-dir {output_dir} --max-epoch {epochs}"
         print(comando)
         salida, error = Bayesian.ejecutar_comando(comando)
         if error:
@@ -183,6 +183,7 @@ class Bayesian:
         Bayesian.train_model(
             f"../new_repo/assets/data_processed/{data_origin}",
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
+            100
         )
         
     ########################################

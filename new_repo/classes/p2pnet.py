@@ -205,7 +205,7 @@ class P2Pnet:
         fecha_hora_actual = datetime.now()
         P2Pnet.train_model(
             f"../new_repo/assets/data_processed/{data_origin}",
-            1000,
+            100,
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/checkpoints",
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/tensorboards",
