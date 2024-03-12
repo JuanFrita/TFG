@@ -169,7 +169,7 @@ class RegTrainer(Trainer):
 
         model_state_dic = self.model.state_dict()
         ##Just take mse for fine tunning
-        if (2.0 * mse) < (2.0 * self.best_mse):
+        if (mse) < (self.best_mse):
             self.best_mse = mse
             self.best_mae = mae
             logging.info("save best mse {:.2f} mae {:.2f} model epoch {}".format(self.best_mse,

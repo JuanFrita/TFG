@@ -92,3 +92,11 @@ Reunión 17/01/2024
 
 --separar por responsabilidades el codigo (clases utils, no hacerlo static, limpiarlo
 ...)
+
+
+-- 
+            if abs(np.min(mse) - result[1]) < 0.01:
+
+que el fine tunning de los modelos siga el mismo criterio.
+Se puede eliminar la transformacion a valor absoluto, tambien se puede eliminar el margen 
+
