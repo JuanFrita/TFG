@@ -100,3 +100,12 @@ Reunión 17/01/2024
 que el fine tunning de los modelos siga el mismo criterio.
 Se puede eliminar la transformacion a valor absoluto, tambien se puede eliminar el margen 
 
+-- COSAS PARA HACER ULTIMO SPRINT (MAX VIERNES)
+
+-- integración con la página web (puede que tire por una arquitectura de aws)
+-- memoria (al menos el esquema)
+-- pruebas (yolo, loggear el mse en testeo)
+-- entrenar los modelos siguiendo el mismo conjunto de entrenamiento y testing
+-- mismas epochs ???
+-- transfer learning en la p2p.
+-- VAMO VAMO VAMO
