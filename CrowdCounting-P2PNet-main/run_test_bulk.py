@@ -65,7 +65,7 @@ def process_image(img_path, transform, model, device):
 
     outputs_points = outputs['pred_points'][0]
 
-    threshold = 0.5
+    threshold = 0.8
     # filter the predictions
     points = outputs_points[outputs_scores >
                             threshold].detach().cpu().numpy().tolist()
@@ -75,11 +75,9 @@ def process_image(img_path, transform, model, device):
         outputs['pred_logits'], -1)[:, :, 1][0]
 
     outputs_points = outputs['pred_points'][0]
-    print(outputs_points)
     # draw the predictions
     size = 2
     img_to_draw = cv2.cvtColor(np.array(img_raw), cv2.COLOR_RGB2BGR)
-    print(len(points))
     for p in points:
         img_to_draw = cv2.circle(
             img_to_draw, (int(p[0]), int(p[1])), size, (0, 0, 255), -1)
@@ -87,6 +85,20 @@ def process_image(img_path, transform, model, device):
     print(os.path.join(args.output_dir, 'pred{}.jpg'.format(predict_cnt)))
     cv2.imwrite(os.path.join(args.output_dir,
                 'pred{}.jpg'.format(predict_cnt)), img_to_draw)
+    return len(points)
+
+    
+def modify_path_and_count_lines(original_path, substring_to_remove, new_substring):
+    modified_path = original_path.replace(substring_to_remove, new_substring)
+    try:
+        with open(modified_path, 'r') as file:
+            lines = file.readlines()
+            line_count = len(lines) - 1
+    except Exception as e:
+        print(f"Error al abrir o leer el archivo: {e}")
+        return None
+
+    return line_count
 
 
 def main(args, debug=False):
@@ -110,6 +122,9 @@ def main(args, debug=False):
         standard_transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
+    
+    epoch_minus = []  
+    
     img_directory = args.data_origin
     for filename in os.listdir(img_directory):
         scene_path = os.path.join(img_directory, filename)
@@ -117,7 +132,22 @@ def main(args, debug=False):
             # Ensure that we are processing only image files
             if filename.endswith(".jpg"):
                 img_path = os.path.join(scene_path, filename)
-                process_image(img_path, transform, model, device)
+                outputs_points = process_image(img_path, transform, model, device)
+
+                #append error
+                lines = modify_path_and_count_lines(img_path, ".jpg", ".txt")
+                epoch_minus.append(lines - outputs_points)
+
+    epoch_minus = np.array(epoch_minus)
+    mse = np.sqrt(np.mean(np.square(epoch_minus)))
+    mae = np.mean(np.abs(epoch_minus))
+    log_str = 'Final Test: mae {}, mse {}'.format(mae, mse)
+
+    file_name = "metrics.txt"
+    save_path = os.path.join(f"{args.output_dir}", file_name)
+    
+    with open(save_path, 'w') as file:
+        file.write(log_str)
 
 
 if __name__ == '__main__':

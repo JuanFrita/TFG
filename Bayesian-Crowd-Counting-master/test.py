@@ -75,5 +75,11 @@ if __name__ == '__main__':
     mse = np.sqrt(np.mean(np.square(epoch_minus)))
     mae = np.mean(np.abs(epoch_minus))
     log_str = 'Final Test: mae {}, mse {}'.format(mae, mse)
-    print(log_str)
 
+
+    file_name = "metrics.txt"
+
+    save_path = os.path.join(f"{args.save_dir}/results", file_name)
+    
+    with open(save_path, 'w') as file:
+        file.write(log_str)
