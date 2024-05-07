@@ -10,7 +10,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 
 # Images
-imgs = ['D:/TFG/resources/Test_Training_p2p/test_pretrained/test/scene05/img_5.jpg']  # batch of images
+imgs = ['../../new_repo/assets/image_and_annotations_repo/base/images/29.jpg']  # batch of images
 
 # Inference
 results = model(imgs)

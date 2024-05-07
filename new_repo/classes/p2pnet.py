@@ -227,3 +227,11 @@ class P2Pnet:
             f"../new_repo/assets/data_processed/{data_origin}/test",
             f"../new_repo/assets/results/{weight_path}/tests/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
         )
+
+    def test_pretrained(instance, weight_path, data_origin):
+        fecha_hora_actual = datetime.now()
+        P2Pnet.test_model(
+            f"../CrowdCounting-P2PNet-main/weights/SHTechA.pth",
+            f"../new_repo/assets/data_processed/{data_origin}/test",
+            f"../new_repo/assets/results/petrainedP2P/tests/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
+        )
