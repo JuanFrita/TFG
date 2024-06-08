@@ -162,9 +162,9 @@ class RegTrainer(Trainer):
         loss = epoch_loss.get_avg()
         mse = np.sqrt(epoch_mse.get_avg())
         mae = epoch_mae.get_avg()
-        logging.info('Epoch {} Val, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec'
+        logging.info('Epoch {} Val, MSE: {:.2f} MAE: {:.2f}, Cost {:.1f} sec, BEST MSE: {:.2f}'
                      .format(self.epoch, mse, mae,
-                             time.time()-epoch_start))
+                             time.time()-epoch_start, self.best_mse))
         logging.info("val: loss/loss@{}: {}".format(self.epoch, loss))
 
         model_state_dic = self.model.state_dict()

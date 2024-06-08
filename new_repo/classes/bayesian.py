@@ -183,7 +183,7 @@ class Bayesian:
         Bayesian.train_model(
             f"../new_repo/assets/data_processed/{data_origin}",
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
-            100
+            600 #same as default
         )
         
     ########################################
