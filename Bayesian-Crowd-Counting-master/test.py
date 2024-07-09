@@ -49,7 +49,7 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = args.device.strip()  # set vis gpu
 
     test_path = os.path.join(args.data_dir, 'test')
-    datasets = Crowd(test_path, 512, 8, is_gray=False, method='val')
+    datasets = Crowd(test_path, 512, 8, is_gray=False, method='test')
     dataloader = torch.utils.data.DataLoader(datasets, 1, shuffle=False,
                                              num_workers=8, pin_memory=False)
     model = vgg19()
@@ -74,12 +74,13 @@ if __name__ == '__main__':
     epoch_minus = np.array(epoch_minus)
     mse = np.sqrt(np.mean(np.square(epoch_minus)))
     mae = np.mean(np.abs(epoch_minus))
-    log_str = 'Final Test: mae {}, mse {}'.format(mae, mse)
+    log_str = 'Final Test: mae {}, mse {}, mean: {}'.format(mae, mse, np.square(epoch_minus))
 
 
     file_name = "metrics.txt"
 
     save_path = os.path.join(f"{args.save_dir}/results", file_name)
+    
     
     with open(save_path, 'w') as file:
         file.write(log_str)

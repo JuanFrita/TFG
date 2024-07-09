@@ -34,7 +34,7 @@ class Crowd(data.Dataset):
 
         self.root_path = root_path
         self.im_list = sorted(glob(os.path.join(self.root_path, '*.jpg')))
-        if method not in ['train', 'val']:
+        if method not in ['train', 'val', 'test']:
             raise Exception("not implement")
         self.method = method
 
@@ -61,17 +61,16 @@ class Crowd(data.Dataset):
         img_path = self.im_list[item]
         gd_path = img_path.replace('jpg', 'npy')
         img = Image.open(img_path).convert('RGB')
-        ##uncomment on train
         keypoints = np.load(gd_path)
-        return self.train_transform(img, keypoints)
-        """ if self.method == 'train':
-            keypoints = np.load(gd_path)
+        if self.method == 'train':
             return self.train_transform(img, keypoints)
         elif self.method == 'val':
+           return self.val_transform(img, keypoints)
+        elif self.method == 'test':
             keypoints = np.load(gd_path)
             img = self.trans(img)
             name = os.path.basename(img_path).split('.')[0]
-            return img, len(keypoints), name """
+            return img, len(keypoints), name
 
 
     def train_transform(self, img, keypoints):
@@ -104,3 +103,16 @@ class Crowd(data.Dataset):
                 img = F.hflip(img)
         return self.trans(img), torch.from_numpy(keypoints.copy()).float(), \
                torch.from_numpy(target.copy()).float(), st_size
+    
+    def val_transform(self, img, keypoints):
+            wd, ht = img.size
+            st_size = min(wd, ht)
+            #all keypoints are valid
+            return self.trans(img), torch.from_numpy(keypoints.copy()).float(), \
+               torch.from_numpy(keypoints.copy()).float(), st_size
+    
+    def test_transform(self, img, img_path, keypoints):
+            img = self.trans(img)
+            name = os.path.basename(img_path).split('.')[0]
+            return img, len(keypoints), name
+        

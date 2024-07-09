@@ -183,7 +183,7 @@ class Bayesian:
         Bayesian.train_model(
             f"../new_repo/assets/data_processed/{data_origin}",
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
-            600 #same as default
+            100 #same as default
         )
         
     ########################################
@@ -191,13 +191,12 @@ class Bayesian:
     ########################################
     
     def default_test(instance, data_origin, output_dir):
-        fecha_hora_actual = datetime.now()
         Bayesian.test_model(
             f"../new_repo/assets/data_processed/{data_origin}",
-            f"../new_repo/assets/results/{output_dir}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
+            f"../new_repo/assets/results/{output_dir}",
         )
 
-    def test_pretrained(instance, data_origin, output_dir):
+    def test_pretrained(instance, data_origin):
         fecha_hora_actual = datetime.now()
         Bayesian.test_model(
             f"../new_repo/assets/data_processed/{data_origin}",
