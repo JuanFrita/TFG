@@ -20,8 +20,11 @@ class Bay_Loss(Module):
                     target[:-1] = target_list[idx]
                 else:
                     target = target_list[idx]
-                pre_count = torch.sum(pre_density[idx].view((1, -1)) * prob, dim=1)  # flatten into vector
-
+                try:
+                    pre_count = torch.sum(pre_density[idx].view((1, -1)) * prob, dim=1)  # flatten into vector
+                except Exception:
+                    raise ValueError(f'{pre_density[idx].shape} {prob.shape}')
+                    
             loss += torch.sum(torch.abs(target - pre_count))
         loss = loss / len(prob_list)
         return loss

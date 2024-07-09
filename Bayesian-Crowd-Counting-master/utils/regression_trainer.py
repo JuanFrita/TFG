@@ -14,7 +14,7 @@ from  models.vgg import vgg19
 from datasets.crowd import Crowd
 from losses.bay_loss import Bay_Loss
 from losses.post_prob import Post_Prob
-import json
+from losses.post_prob_val import Post_Prob_Val
 
 def train_collate(batch):
     transposed_batch = list(zip(*batch))
@@ -24,6 +24,15 @@ def train_collate(batch):
     st_sizes = torch.FloatTensor(transposed_batch[3])
     return images, points, targets, st_sizes
 
+def val_collate(batch):
+    transposed_batch = list(zip(*batch))
+    images = torch.stack(transposed_batch[0], 0)
+    points = transposed_batch[1]  # the number of points is not fixed, keep it as a list of tensor
+    targets = transposed_batch[2]
+    st_sizes = torch.FloatTensor(transposed_batch[3])
+    w_sizes = torch.FloatTensor(transposed_batch[4])
+    h_sizes = torch.FloatTensor(transposed_batch[5])
+    return images, points, targets, st_sizes, w_sizes, h_sizes
 
 class RegTrainer(Trainer):
     def setup(self):
@@ -46,7 +55,7 @@ class RegTrainer(Trainer):
                                   args.downsample_ratio,
                                   args.is_gray, x) for x in ['train', 'val']}
         self.dataloaders = {x: DataLoader(self.datasets[x],
-                                          collate_fn=(train_collate),
+                                          collate_fn = (lambda x: train_collate if x == 'train' else val_collate)(x),
                                           batch_size=(args.batch_size
                                           if x == 'train' else 1),
                                           shuffle=(True),
@@ -68,8 +77,13 @@ class RegTrainer(Trainer):
             elif suf == 'pth':
                 self.model.load_state_dict(torch.load(args.resume, self.device))
 
-        self.post_prob = Post_Prob(args.sigma,
+        self.post_prob_train = Post_Prob(args.sigma,
                                    args.crop_size,
+                                   args.downsample_ratio,
+                                   args.background_ratio,
+                                   args.use_background,
+                                   self.device)
+        self.post_prob_val = Post_Prob_Val(args.sigma,
                                    args.downsample_ratio,
                                    args.background_ratio,
                                    args.use_background,
@@ -107,7 +121,7 @@ class RegTrainer(Trainer):
 
             with torch.set_grad_enabled(True):
                 outputs = self.model(inputs)
-                prob_list = self.post_prob(points, st_sizes)
+                prob_list = self.post_prob_train(points, st_sizes)
                 loss = self.criterion(prob_list, targets, outputs)
 
                 self.optimizer.zero_grad()
@@ -141,7 +155,7 @@ class RegTrainer(Trainer):
         epoch_mse = AverageMeter()
         epoch_start = time.time()
         # Iterate over data.
-        for step, (inputs, points, targets, st_sizes) in enumerate(self.dataloaders['val']):
+        for step, (inputs, points, targets, st_sizes, w_sizes, h_sizes) in enumerate(self.dataloaders['val']):
             inputs = inputs.to(self.device)
             st_sizes = st_sizes.to(self.device)
             gd_count = np.array([len(p) for p in points], dtype=np.float32)
@@ -150,7 +164,7 @@ class RegTrainer(Trainer):
 
             with torch.set_grad_enabled(False):
                 outputs = self.model(inputs)
-                prob_list = self.post_prob(points, st_sizes)
+                prob_list = self.post_prob_val(points, st_sizes, w_sizes, h_sizes)
                 loss = self.criterion(prob_list, targets, outputs)
                 N = inputs.size(0)
                 pre_count = torch.sum(outputs.view(N, -1), dim=1).detach().cpu().numpy()

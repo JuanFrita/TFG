@@ -74,7 +74,7 @@ if __name__ == '__main__':
     epoch_minus = np.array(epoch_minus)
     mse = np.sqrt(np.mean(np.square(epoch_minus)))
     mae = np.mean(np.abs(epoch_minus))
-    log_str = 'Final Test: mae {}, mse {}, mean: {}'.format(mae, mse, np.square(epoch_minus))
+    log_str = 'Final Test: mae {}, mse {}, mean: {}'.format(mae, mse, epoch_minus)
 
 
     file_name = "metrics.txt"

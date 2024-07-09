@@ -1,6 +1,5 @@
 import argparse
 from classes.bayesian import Bayesian
-from datetime import datetime
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

@@ -48,5 +48,3 @@ class Post_Prob(Module):
             for _ in range(len(points)):
                 prob_list.append(None)
         return prob_list
-
-
