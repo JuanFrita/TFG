@@ -74,28 +74,7 @@ class P2pPipeline(BaseCNNPipeline):
     # RUNNING TRAINING AND TESTING                #
     ###############################################
     
-    def train_p2p_model(self, data_root, epochs, output_dir, checkpoints_dir, tensorboard_dir, batch_size, eval_freq):
-        """
-        Runs p2p train
-        """
-        # create the output dirs
-        self.resetDirectory(output_dir)
-        self.resetDirectory(tensorboard_dir)
-        self.resetDirectory(checkpoints_dir)
-
-        command = f"python ../CrowdCounting-P2PNet-main/train.py --data_root {data_root} --epochs {epochs} --output_dir {output_dir} --checkpoints_dir {checkpoints_dir} --tensorboard_dir {tensorboard_dir} --batch_size {batch_size} --eval_freq {eval_freq} --gpu_id 0"
-        return self.run_command(command)
-
-    def test_p2p_model(self, weight_path, data_origin, output_dir):
-        """
-        Runs p2p test
-        """
-        self.resetDirectory(output_dir)
-
-        command = f"python ../CrowdCounting-P2PNet-main/run_test_bulk.py --weight_path {weight_path} --data_origin {data_origin} --output_dir {output_dir}"
-        return self.run_command(command)
-    
-    def default_train(self, data_origin):
+    def runTrain(self, data_origin):
         fecha_hora_actual = datetime.now()
         self.train_p2p_model(
             f"../new_repo/assets/data_processed/{data_origin}",
@@ -107,13 +86,32 @@ class P2pPipeline(BaseCNNPipeline):
             5
         )
 
-    def default_test(self, weight_path, data_origin):
-        """
-        Entrenamiento por defecto
-        """
+    def runTest(self, data_root, output_dir):
         fecha_hora_actual = datetime.now()
         self.test_p2p_model(
-            f"../new_repo/assets/results/{weight_path}/checkpoints/best_mae.pth",
-            f"../new_repo/assets/data_processed/{data_origin}/test",
-            f"../new_repo/assets/results/{weight_path}/tests/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
+            f"../new_repo/assets/results/{output_dir}/checkpoints/best_mae.pth",
+            f"../new_repo/assets/data_processed/{data_root}/test",
+            f"../new_repo/assets/results/{output_dir}/tests/{data_root}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
         )
+    
+    def trainModel(self, data_root, epochs, output_dir, checkpoints_dir, tensorboard_dir, batch_size, eval_freq):
+        """
+        Launches p2pnet command to train it
+        """
+        # create the output dirs
+        self.resetDirectory(output_dir)
+        self.resetDirectory(tensorboard_dir)
+        self.resetDirectory(checkpoints_dir)
+
+        command = f"python ../CrowdCounting-P2PNet-main/train.py --data_root {data_root} --epochs {epochs} --output_dir {output_dir} --checkpoints_dir {checkpoints_dir} --tensorboard_dir {tensorboard_dir} --batch_size {batch_size} --eval_freq {eval_freq} --gpu_id 0"
+        return self.run_command(command)
+
+    def testModel(self, weight_path, data_origin, output_dir):
+        """
+        Launches p2pnet command to testit it
+        """
+        self.resetDirectory(output_dir)
+
+        command = f"python ../CrowdCounting-P2PNet-main/run_test_bulk.py --weight_path {weight_path} --data_origin {data_origin} --output_dir {output_dir}"
+        return self.run_command(command)
+    

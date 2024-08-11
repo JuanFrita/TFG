@@ -43,16 +43,7 @@ class BayesianPipeline(BaseCNNPipeline):
     # RUNNING TRAINING AND TESTING                #
     ###############################################
     
-    def trainModel(self, data_root, output_dir, epochs):
-        self.resetDirectory(output_dir)
-        command = f"python ../Bayesian-Crowd-Counting-master/train.py --data-dir {data_root} --save-dir {output_dir} --max-epoch {epochs}"
-        return self.run_command(command)
-
-    def testModel(self, data_root, output_dir):
-        command = f"python ../Bayesian-Crowd-Counting-master/test.py --data-dir {data_root} --save-dir {output_dir}"
-        return self.run_command(command)
-     
-    def defaultTrain(self, data_origin):
+    def runTrain(self, data_origin):
         fecha_hora_actual = datetime.now()
         self.train_model(
             f"../new_repo/assets/data_processed/{data_origin}",
@@ -60,8 +51,24 @@ class BayesianPipeline(BaseCNNPipeline):
             100 #same as default
         )
         
-    def defaultTest(self, data_origin, output_dir):
+    def runTest(self, data_origin, output_dir):
         self.test_model(
             f"../new_repo/assets/data_processed/{data_origin}",
             f"../new_repo/assets/results/{output_dir}",
         )
+    
+    def trainModel(self, data_root, output_dir, epochs):
+        """
+        Launches bayesian crowd counting command to train it
+        """
+        self.resetDirectory(output_dir)
+        command = f"python ../Bayesian-Crowd-Counting-master/train.py --data-dir {data_root} --save-dir {output_dir} --max-epoch {epochs}"
+        return self.run_command(command)
+
+    def testModel(self, data_root, output_dir):
+        """
+        Launches bayesian crowd counting command to testit it
+        """
+        command = f"python ../Bayesian-Crowd-Counting-master/test.py --data-dir {data_root} --save-dir {output_dir}"
+        return self.run_command(command)
+        

@@ -143,6 +143,29 @@ class BaseCNNPipeline(ABC):
             epochs = [int(match[0]) for match in matches[limit_left:limit_right//5]]
             losses = [float(match[1]) for match in matches[limit_left:limit_right//5]]
         return [epochs, losses]
+    
+    ###############################################
+    # RUNNING TRAINING AND TESTING                #
+    ###############################################
+    
+    @abstractmethod
+    def runTrain(self, data_origin):
+        """
+        Runs the model training script from its source
+        
+        :data_origin: Path of training and validation data
+        """ 
+        pass
+
+    @abstractmethod
+    def runTest(self, data_origin, output_dir):
+        """
+        Runs the model testing script from its source
+        
+        :data_origin: Path of testing source data
+        :output_dir: Path to save testing result
+        """
+        pass
 
     ###############################################
     # AUXULIAR METHODS                            #
@@ -152,7 +175,6 @@ class BaseCNNPipeline(ABC):
         """
         Runs a command
         """
-        
         proceso = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         out, error = proceso.communicate()
         if error:
