@@ -6,7 +6,7 @@ def main(map):
     bayesian.ShowNpyHotMap(map)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Especifica la estructura TRAIN/TEST para la red P2P.")
+    parser = argparse.ArgumentParser(description="Especifica la ruta del fichero .npy de la red bayesian.")
     parser.add_argument("map", help="Fichero.npy")
     args = parser.parse_args()
     main(args.map)
