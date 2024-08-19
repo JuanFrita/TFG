@@ -123,7 +123,7 @@ class BaseCNNPipeline(ABC):
         plt.legend()
         plt.show()
     
-    def plot_individual_loss(loss_file, pattern, limit_left, limit_right, jump=False):
+    def plot_individual_loss(self, loss_file, pattern, limit_left, limit_right, jump=False):
         """
         Plot the data based on a regex expression
         
@@ -199,4 +199,4 @@ class BaseCNNPipeline(ABC):
         """
         if os.path.exists(path):
             shutil.rmtree(path)
-            os.makedirs(path, exist_ok=True)
+        os.makedirs(path, exist_ok=True)
