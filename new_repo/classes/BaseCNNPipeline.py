@@ -193,7 +193,7 @@ class BaseCNNPipeline(ABC):
             paths.append(os.path.abspath(os.path.join(origin, file)))
         return paths
     
-    def resetDirectory(path):
+    def resetDirectory(self, path):
         """
         Recreates a directory
         """

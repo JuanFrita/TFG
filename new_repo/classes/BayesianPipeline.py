@@ -1,7 +1,7 @@
 from classes.BaseCNNPipeline import BaseCNNPipeline
 import shutil
 import os
-import datetime
+from datetime import datetime
 
 class BayesianPipeline(BaseCNNPipeline):
     
@@ -45,14 +45,14 @@ class BayesianPipeline(BaseCNNPipeline):
     
     def runTrain(self, data_origin):
         fecha_hora_actual = datetime.now()
-        self.train_model(
+        self.trainModel(
             f"../new_repo/assets/data_processed/{data_origin}",
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
             100 #same as default
         )
         
     def runTest(self, data_origin, output_dir):
-        self.test_model(
+        self.testModel(
             f"../new_repo/assets/data_processed/{data_origin}",
             f"../new_repo/assets/results/{output_dir}",
         )

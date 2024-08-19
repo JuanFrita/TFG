@@ -2,7 +2,7 @@ from classes.BaseCNNPipeline import BaseCNNPipeline
 import os
 import shutil
 import numpy as np
-import datetime
+from datetime import datetime
 
 class P2pPipeline(BaseCNNPipeline):
     
@@ -79,7 +79,7 @@ class P2pPipeline(BaseCNNPipeline):
     
     def runTrain(self, data_origin):
         fecha_hora_actual = datetime.now()
-        self.train_p2p_model(
+        self.trainModel(
             f"../new_repo/assets/data_processed/{data_origin}",
             100,
             f"../new_repo/assets/results/{data_origin}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}/output",
@@ -91,7 +91,7 @@ class P2pPipeline(BaseCNNPipeline):
 
     def runTest(self, data_root, output_dir):
         fecha_hora_actual = datetime.now()
-        self.test_p2p_model(
+        self.testModel(
             f"../new_repo/assets/results/{output_dir}/checkpoints/best_mae.pth",
             f"../new_repo/assets/data_processed/{data_root}/test",
             f"../new_repo/assets/results/{output_dir}/tests/{data_root}/{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}",
