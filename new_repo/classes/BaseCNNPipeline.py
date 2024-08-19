@@ -61,7 +61,7 @@ class BaseCNNPipeline(ABC):
         """ 
         pass
     
-    def setupListFiles(self, source, destination, extension):
+    def setupListFiles(self, source, destination, extension="txt"):
         """
         Creates files with the lists of files for all the model pipeline.
         This is used by models to know the files to use in each pipeline.

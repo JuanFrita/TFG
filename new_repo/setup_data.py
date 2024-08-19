@@ -1,34 +1,29 @@
-from classes.p2pnet import P2Pnet
-from classes.bayesian import Bayesian
-from datetime import datetime
-from pathlib import Path
 import numpy as np
 import os
+import argparse
+from datetime import datetime
+from classes.CNNFactory import CNNFactory
 
 
-"""
-Obtener por parametros los directorios para crear la estructura para la cnn Bayesian
-"""
 def main(imagenes="assets\\images", anotaciones="assets\\annotations", split_ratio=0.7):   
-    ##obtener los ficheros de entrenamiento y de testing
+    
+    argparse.ArgumentParser(
+        description="Especifica la estructura TRAIN/VAL/TEST para un modelo.")
+    
     files = os.listdir(imagenes)
     np.random.shuffle(files)
     train_files = files[:int(len(files) * split_ratio)]
-    test_files = files[int(len(files) * split_ratio):]
+    test_val_files = files[int(len(files) * split_ratio):]
+    val_files = test_val_files[:int(len(test_val_files) * 0.5)]
+    test_files = test_val_files[int(len(test_val_files) * 0.5):]
     
-    fecha_hora_actual = datetime.now()
-    #montar la estructura necesaria para la red p2p
-    netP2p = P2Pnet()
-    destinoP2P = f"assets\\data_processed\\estructuraP2P{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}"
-    netP2p.setCarpetas(imagenes, anotaciones, train_files, test_files, destinoP2P)
-    netP2p.setFicheros(destinoP2P, destinoP2P)
+    models = ["bayesian", "p2p"]
     
-    #montar la estructura necesaria para la red bayesian
-    netBayesian = Bayesian()
-    destinoBayesian =  f"assets\\data_processed\\estructuraBayesian{fecha_hora_actual.strftime('%Y-%m-%d_%H-%M-%S')}"
-    netBayesian.setCarpetas(imagenes, anotaciones, train_files, test_files, destinoBayesian)
-    netBayesian.setFicheros(destinoBayesian, destinoBayesian)
-    netBayesian.preprocessData(destinoBayesian)
+    for model in models:
+        cnnPipeline = CNNFactory.get(model)
+        destination = f"assets\\data_processed\\structure{model}{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+        cnnPipeline.setupDirectories(imagenes, anotaciones, train_files, val_files, test_files, destination)
+        cnnPipeline.setupListFiles(destination, destination)
 
 if __name__ == "__main__":
     main()

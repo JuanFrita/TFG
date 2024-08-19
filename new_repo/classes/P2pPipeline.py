@@ -1,4 +1,4 @@
-import BaseCNNPipeline
+from classes.BaseCNNPipeline import BaseCNNPipeline
 import os
 import shutil
 import numpy as np
@@ -9,6 +9,9 @@ class P2pPipeline(BaseCNNPipeline):
     ###############################################
     # STRUCTURE SETUP                             #
     ###############################################
+    
+    def setupListFiles(self, source, destination, extension="txt"):
+        super().setupListFiles(source, destination, 'list')
     
     def loadAnotations(self, files, directory_folder, image_source, anotations_source):
         scene = 0
@@ -28,7 +31,7 @@ class P2pPipeline(BaseCNNPipeline):
 
             txt_file = os.path.splitext(file)[0] + '.txt'
 
-            self.ptsToTxt(os.path.join(anotations_source, annotation_file),
+            self.ptsTotxt(os.path.join(anotations_source, annotation_file),
                               os.path.join(directory_folder, string_scene, txt_file))
 
             scene += 1

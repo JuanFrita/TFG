@@ -1,4 +1,4 @@
-import BaseCNNPipeline
+from classes.BaseCNNPipeline import BaseCNNPipeline
 import shutil
 import os
 import datetime
@@ -9,8 +9,8 @@ class BayesianPipeline(BaseCNNPipeline):
     # STRUCTURE SETUP                             #
     ###############################################
     
-    def setupDirectories(self, image_source, anotations_source, train_files, val_files, test_files, destination):
-        super().setupDirectories(image_source, anotations_source, train_files, val_files, test_files, destination)
+    def setupListFiles(self, source, destination, extension="txt"):
+        super().setupListFiles(source, destination, 'txt')
         #will override the origin data for the processed one
         self.preprocessData(destination, destination)
     
