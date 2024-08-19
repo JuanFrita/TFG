@@ -61,7 +61,7 @@ class SHHA(Dataset):
             min_size = min(img.shape[1:])
             scale = random.uniform(*scale_range)
             # scale the image and points
-            if scale * min_size > 128:
+            if scale * min_size > 512:
                 img = torch.nn.functional.upsample_bilinear(img.unsqueeze(0), scale_factor=scale).squeeze(0)
                 point *= scale
         # random crop augumentaiton
@@ -74,7 +74,7 @@ class SHHA(Dataset):
             # random flip
             img = torch.Tensor(img[:, :, :, ::-1].copy())
             for i, _ in enumerate(point):
-                point[i][:, 0] = 128 - point[i][:, 0]
+                point[i][:, 0] = 512 - point[i][:, 0]
 
         if not self.train:
             point = [point]
@@ -110,8 +110,8 @@ def load_data(img_gt_path, train):
 
 # random crop augumentation
 def random_crop(img, den, num_patch=4):
-    half_h = 128
-    half_w = 128
+    half_h = 512
+    half_w = 512
     result_img = np.zeros([num_patch, img.shape[0], half_h, half_w])
     result_den = []
     # crop num_patch for each image

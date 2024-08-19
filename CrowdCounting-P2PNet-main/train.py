@@ -19,7 +19,7 @@ def get_args_parser():
     parser = argparse.ArgumentParser('Set parameters for training P2PNet', add_help=False)
     parser.add_argument('--lr', default=1e-4, type=float)
     parser.add_argument('--lr_backbone', default=1e-5, type=float)
-    parser.add_argument('--batch_size', default=8, type=int)
+    parser.add_argument('--batch_size', default=1, type=int)
     parser.add_argument('--weight_decay', default=1e-4, type=float)
     parser.add_argument('--epochs', default=3500, type=int)
     parser.add_argument('--lr_drop', default=3500, type=int)
@@ -170,10 +170,10 @@ def main(args):
             writer.add_scalar('loss/loss_ce', stat['loss_ce'], epoch)
 
         t2 = time.time()
-        print('[ep %d][lr %.7f][%.2fs]' % \
+        print('[ep %d][lr %.7f] Cost %.2f sec' % \
               (epoch, optimizer.param_groups[0]['lr'], t2 - t1))
         with open(run_log_name, "a") as log_file:
-            log_file.write('[ep %d][lr %.7f][%.2fs]\n' % (epoch, optimizer.param_groups[0]['lr'], t2 - t1))
+            log_file.write('[ep %d][lr %.7f] Cost %.2f sec' % (epoch, optimizer.param_groups[0]['lr'], t2 - t1))
         # change lr according to the scheduler
         lr_scheduler.step()
         # save latest weights every epoch
@@ -193,8 +193,8 @@ def main(args):
             print('=======================================test=======================================')
             print("mae:", result[0], "mse:", result[1], "time:", t2 - t1, "best mae:", np.min(mae), )
             with open(run_log_name, "a") as log_file:
-                log_file.write("mae:{}, mse:{}, time:{}, best mae:{}\n".format(result[0], 
-                                result[1], t2 - t1, np.min(mae)))
+                log_file.write("mae:{}, mse:{}, ValCost {} sec, best mse:{}\n".format(result[0], 
+                                result[1], t2 - t1, np.min(mse)))
                 log_file.write("val: loss/loss@{}: {}".format(epoch, result[2]))
             print('=======================================test=======================================')
             # recored the evaluation results
