@@ -1,6 +1,4 @@
 import argparse
-from new_repo.classes.old.p2pnet import P2Pnet
-from datetime import datetime
 from classes.CNNFactory import CNNFactory
 
 if __name__ == "__main__":
