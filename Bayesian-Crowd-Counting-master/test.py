@@ -22,22 +22,19 @@ def parse_args():
     return args
 
 
+
 def merge_density_with_image(image_path, density_map, results_path, image_name):
 
     background_image = Image.open(image_path).convert('RGB')
-    background_image_resized = background_image.resize((density_map.shape[1], density_map.shape[0]), Image.BILINEAR)
-
-    density_map_normalized = density_map / np.max(density_map)  # Normalizar el mapa de densidad
-    density_map_colored = plt.cm.jet(density_map_normalized)[:, :, :3]  # Us
+    density_map_normalized = density_map / np.max(density_map)
+    density_map_colored = plt.cm.jet(density_map_normalized)[:, :, :3]
     density_map_rgba = np.zeros((density_map.shape[0], density_map.shape[1], 4), dtype=np.uint8)
     density_map_rgba[..., :3] = density_map_colored * 255
-    density_map_rgba[..., 3] = 75 #ajustar la transparencia del mapa de densidad
-
+    density_map_rgba[..., 3] = 75 #alpha channel
     density_map_image = Image.fromarray(density_map_rgba)
-    background_image_resized_pil = Image.fromarray(np.array(background_image_resized))
-
-    combined_image = Image.alpha_composite(background_image_resized_pil.convert('RGBA'), density_map_image)
-
+    width, height = background_image.size
+    density_map_image = density_map_image.resize((width, height), Image.BILINEAR)
+    combined_image = Image.alpha_composite(background_image.convert('RGBA'), density_map_image)
     os.makedirs(results_path, exist_ok=True)
 
     save_path = os.path.join(results_path, image_name)

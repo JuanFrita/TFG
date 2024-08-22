@@ -52,7 +52,7 @@ def process_image(img_path, transform, model, device):
     width, height = img_raw.size
     new_width = width // 128 * 128
     new_height = height // 128 * 128
-    img_raw = img_raw.resize((new_width, new_height), Image.ANTIALIAS)
+    img_raw = img_raw.resize((new_width, new_height), Image.LANCZOS)
     # pre-proccessing
     img = transform(img_raw)
 
@@ -76,7 +76,7 @@ def process_image(img_path, transform, model, device):
 
     outputs_points = outputs['pred_points'][0]
     # draw the predictions
-    size = 2
+    size = 5
     img_to_draw = cv2.cvtColor(np.array(img_raw), cv2.COLOR_RGB2BGR)
     for p in points:
         img_to_draw = cv2.circle(
