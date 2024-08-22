@@ -1,5 +1,5 @@
 import argparse
-from classes.bayesian import Bayesian
+from new_repo.classes.old.bayesian import Bayesian
 from datetime import datetime
 
 if __name__ == "__main__":

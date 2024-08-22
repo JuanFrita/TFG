@@ -5,7 +5,7 @@ from datetime import datetime
 from classes.CNNFactory import CNNFactory
 
 
-def main(imagenes="assets\\images", anotaciones="assets\\annotations", split_ratio=0.7):   
+def main(imagenes="assets\\images", anotaciones="assets\\annotations", split_ratio=0.8):   
     
     argparse.ArgumentParser(
         description="Especifica la estructura TRAIN/VAL/TEST para un modelo.")

@@ -1,5 +1,5 @@
 import argparse
-from classes.p2pnet import P2Pnet
+from new_repo.classes.old.bayesian import Bayesian
 from datetime import datetime
 
 if __name__ == "__main__":
@@ -9,4 +9,5 @@ if __name__ == "__main__":
     parser.add_argument("limit_left", help="Max epoch", type=int)
     parser.add_argument("limit_right", help="Max epoch", type=int)
     args = parser.parse_args()
-    P2Pnet().plot_loss(f"assets/results/{args.data_origin}/output/run_log.txt", args.limit_left , args.limit_right)
+
+    Bayesian().plot_loss(f"assets/results/{args.data_origin}/train.log", args.limit_left , args.limit_right)

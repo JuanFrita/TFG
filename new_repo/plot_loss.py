@@ -1,5 +1,5 @@
 import argparse
-from classes.p2pnet import P2Pnet
+from new_repo.classes.old.p2pnet import P2Pnet
 from datetime import datetime
 from classes.CNNFactory import CNNFactory
 

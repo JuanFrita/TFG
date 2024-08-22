@@ -1,5 +1,5 @@
 import argparse
-from classes.bayesian import Bayesian
+from new_repo.classes.old.bayesian import Bayesian
 
 def main(map):
     bayesian = Bayesian()
