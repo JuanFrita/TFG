@@ -85,7 +85,7 @@ def process_image(img_path, transform, model, device):
     # save the visualized image
     print(os.path.join(args.output_dir, 'pred{}.jpg'.format(predict_cnt)))
     cv2.imwrite(os.path.join(args.output_dir,
-                '{}_{}.jpg'.format(image_name, predict_cnt)), img_to_draw)
+                'image_{}_count_{}.png'.format(image_name, predict_cnt)), img_to_draw)
     return len(points)
 
     
@@ -142,7 +142,7 @@ def main(args, debug=False):
     epoch_minus = np.array(epoch_minus)
     mse = np.sqrt(np.mean(np.square(epoch_minus)))
     mae = np.mean(np.abs(epoch_minus))
-    log_str = 'Final Test: mae {}, mse {}'.format(mae, mse)
+    log_str = 'Final Test: mae {}, mse {}, mean: {}'.format(mae, mse, epoch_minus)
 
     file_name = "metrics.txt"
     save_path = os.path.join(f"{args.output_dir}", file_name)

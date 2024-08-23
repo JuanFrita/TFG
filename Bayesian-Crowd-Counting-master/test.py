@@ -61,13 +61,13 @@ if __name__ == '__main__':
         with torch.set_grad_enabled(False):
             outputs = model(inputs)
             temp_minu = count[0].item() - torch.sum(outputs).item()
-            count = torch.sum(outputs)
+            pred_cnt = torch.sum(outputs)
             print(f"torch.sum {torch.sum(count)}")
             print(name, temp_minu, count[0].item(), torch.sum(outputs).item())
             epoch_minus.append(temp_minu)
             density_map = outputs.squeeze().cpu().numpy()
             
-            merge_density_with_image(os.path.join(f"{args.data_dir}/test",f"{name[0]}_{count}.jpg"), density_map, f"{args.save_dir}/results", f"{name[0]}.png")
+            merge_density_with_image(os.path.join(f"{args.data_dir}/test",f"{name[0]}.jpg"), density_map, f"{args.save_dir}/results", f"image_{name[0]}_count_{pred_cnt}.png")
 
     epoch_minus = np.array(epoch_minus)
     mse = np.sqrt(np.mean(np.square(epoch_minus)))
