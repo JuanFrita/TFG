@@ -48,6 +48,7 @@ def get_args_parser():
 def process_image(img_path, transform, model, device):
     # load the images
     img_raw = Image.open(img_path).convert('RGB')
+    image_name = os.path.basename(img_path)
     # round the size
     width, height = img_raw.size
     new_width = width // 128 * 128
@@ -84,7 +85,7 @@ def process_image(img_path, transform, model, device):
     # save the visualized image
     print(os.path.join(args.output_dir, 'pred{}.jpg'.format(predict_cnt)))
     cv2.imwrite(os.path.join(args.output_dir,
-                'pred{}.jpg'.format(predict_cnt)), img_to_draw)
+                '{}_{}.jpg'.format(image_name, predict_cnt)), img_to_draw)
     return len(points)
 
     
